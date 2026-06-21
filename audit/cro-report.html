@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CRO Audit — ameraeid.com</title>
+<style>
+  :root{
+    --plum:#4a2c40;
+    --plum-deep:#2e1a28;
+    --gold:#b08d4f;
+    --gold-soft:#d9c4a0;
+    --sage:#84988c;
+    --sage-soft:#e7ede9;
+    --ink:#2b2530;
+    --muted:#6b6470;
+    --line:#e4dfe6;
+    --bg:#ffffff;
+    --cream:#faf7f3;
+    --red:#b23a48;
+    --amber:#c8862a;
+    --green:#5a7d63;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Georgia","Times New Roman",serif;
+    color:var(--ink);
+    font-size:11pt;
+    line-height:1.55;
+    background:var(--bg);
+  }
+  .sans{font-family:"Helvetica Neue",Arial,sans-serif;}
+  h1,h2,h3,h4{font-family:"Helvetica Neue",Arial,sans-serif;line-height:1.15;}
+  @page{
+    size:A4;
+    margin:18mm 16mm 16mm 16mm;
+  }
+  .page{page-break-after:always;}
+  .page:last-child{page-break-after:auto;}
+  .avoid-break{page-break-inside:avoid;}
+
+  /* COVER */
+  .cover{
+    page-break-after:always;
+    background:linear-gradient(155deg,var(--plum-deep),var(--plum) 60%,#5e3a52);
+    color:#fff;
+    min-height:262mm;
+    margin:-18mm -16mm 0 -16mm;
+    padding:46mm 22mm 24mm 22mm;
+    position:relative;
+  }
+  .cover .eyebrow{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    font-size:9.5pt;
+    color:var(--gold-soft);
+    margin-bottom:24mm;
+  }
+  .cover h1{
+    font-family:"Georgia",serif;
+    font-weight:normal;
+    font-size:40pt;
+    line-height:1.08;
+    margin:0 0 8mm 0;
+    letter-spacing:.3px;
+  }
+  .cover h1 em{color:var(--gold-soft);font-style:italic;}
+  .cover .sub{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13pt;
+    color:#e9dff0;
+    max-width:130mm;
+    line-height:1.5;
+  }
+  .cover .rule{height:2px;width:60mm;background:var(--gold);margin:14mm 0;border:0;}
+  .cover .meta{
+    position:absolute;
+    bottom:24mm;left:22mm;right:22mm;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:9.5pt;
+    color:#cdbfd6;
+    display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.18);padding-top:6mm;
+  }
+  .cover .meta strong{color:#fff;font-weight:600;display:block;font-size:10.5pt;}
+
+  /* GENERIC */
+  h2.section{
+    font-size:20pt;color:var(--plum);font-weight:700;margin:0 0 2mm 0;letter-spacing:.2px;
+  }
+  .kicker{
+    font-family:"Helvetica Neue",Arial,sans-serif;letter-spacing:.32em;text-transform:uppercase;
+    font-size:8.5pt;color:var(--gold);font-weight:700;margin-bottom:3mm;
+  }
+  .section-rule{height:3px;width:22mm;background:var(--gold);border:0;margin:0 0 7mm 0;}
+  p{margin:0 0 3.4mm 0;}
+  .lead{font-size:12pt;color:var(--muted);line-height:1.6;}
+  strong{color:var(--plum-deep);}
+  a{color:var(--plum);}
+
+  .grid2{display:flex;gap:10mm;}
+  .grid2 > div{flex:1;}
+
+  .scorecard{width:100%;border-collapse:collapse;font-family:"Helvetica Neue",Arial,sans-serif;font-size:9.5pt;margin-top:3mm;}
+  .scorecard th{
+    background:var(--plum);color:#fff;text-align:left;padding:3mm 4mm;font-weight:600;font-size:9pt;letter-spacing:.04em;
+  }
+  .scorecard td{padding:2.8mm 4mm;border-bottom:1px solid var(--line);vertical-align:top;}
+  .scorecard tr:nth-child(even) td{background:var(--cream);}
+  .grade{font-weight:700;font-family:"Helvetica Neue",Arial,sans-serif;border-radius:3px;padding:1mm 2.6mm;font-size:8.5pt;color:#fff;white-space:nowrap;}
+  .g-crit{background:var(--red);}
+  .g-poor{background:var(--amber);}
+  .g-ok{background:var(--green);}
+
+  .pill{display:inline-block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:7.6pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:1.1mm 2.6mm;border-radius:20px;color:#fff;vertical-align:middle;}
+  .p-crit{background:var(--red);}
+  .p-high{background:var(--amber);}
+  .p-med{background:var(--sage);}
+
+  .finding{margin:0 0 5mm 0;page-break-inside:avoid;}
+  .finding h4{font-size:11pt;color:var(--plum-deep);margin:0 0 1.5mm 0;}
+  .finding .why{color:var(--muted);font-size:10pt;margin:0 0 1.6mm 0;}
+  .finding .fix{font-size:10pt;background:var(--sage-soft);border-left:3px solid var(--sage);padding:2.4mm 3.4mm;border-radius:0 4px 4px 0;}
+  .finding .fix b{color:var(--plum-deep);}
+
+  .pagecard{border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:7mm;page-break-inside:avoid;}
+  .pagecard .head{background:var(--cream);padding:4mm 5mm;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .pagecard .head h3{font-size:14pt;color:var(--plum);margin:0;}
+  .pagecard .head .url{font-family:"Helvetica Neue",Arial,sans-serif;font-size:8.5pt;color:var(--muted);}
+  .pagecard .body{padding:5mm;}
+
+  ul.clean{margin:0 0 3mm 0;padding-left:5mm;}
+  ul.clean li{margin-bottom:1.8mm;}
+
+  .roadmap{width:100%;border-collapse:collapse;font-family:"Helvetica Neue",Arial,sans-serif;font-size:9.3pt;}
+  .roadmap th{background:var(--plum-deep);color:#fff;text-align:left;padding:3mm;font-size:8.6pt;letter-spacing:.04em;}
+  .roadmap td{padding:2.8mm 3mm;border-bottom:1px solid var(--line);vertical-align:top;}
+  .roadmap tr:nth-child(even) td{background:var(--cream);}
+  .effort{font-weight:700;}
+  .e-low{color:var(--green);}
+  .e-med{color:var(--amber);}
+  .e-high{color:var(--red);}
+
+  .callout{background:var(--plum);color:#fff;border-radius:6px;padding:7mm 8mm;margin:6mm 0;}
+  .callout h3{margin:0 0 3mm 0;font-size:13pt;color:var(--gold-soft);}
+  .callout p{color:#ece2f2;margin:0;}
+  .callout p + p{margin-top:2.5mm;}
+
+  .statband{display:flex;gap:5mm;margin:6mm 0;}
+  .stat{flex:1;background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:5mm 4mm;text-align:center;}
+  .stat .n{font-family:"Helvetica Neue",Arial,sans-serif;font-size:22pt;font-weight:800;color:var(--plum);line-height:1;}
+  .stat .l{font-family:"Helvetica Neue",Arial,sans-serif;font-size:8pt;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:2.5mm;}
+
+  .footer-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:8pt;color:var(--muted);text-align:center;border-top:1px solid var(--line);padding-top:3mm;margin-top:8mm;}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div class="eyebrow">Conversion Rate Optimization Audit</div>
+  <h1>Turning a beautiful<br>legacy into <em>bookings.</em></h1>
+  <hr class="rule">
+  <div class="sub">A full-site CRO teardown of <strong style="color:#fff">ameraeid.com</strong> — seven pages assessed against value proposition, trust, friction and conversion path — with a prioritized roadmap to turn visitors into students, mentees and travellers.</div>
+  <div class="meta">
+    <div><strong>Prepared for</strong>Amera Eid — Belly Dance Australia</div>
+    <div><strong>Scope</strong>Home · About · Classes · Workshops · Tours · Mentoring · Contact</div>
+    <div><strong>Date</strong>June 2026</div>
+  </div>
+</section>
+
+<!-- ============ EXEC SUMMARY ============ -->
+<section class="page">
+  <div class="kicker">01 — Executive Summary</div>
+  <h2 class="section">The site tells a story. It doesn't ask for the sale.</h2>
+  <hr class="section-rule">
+
+  <p class="lead">ameraeid.com is the digital home of one of Australia's most accomplished belly dance artists — 40+ years of performance, teaching, costume design and cultural leadership. The brand equity is real. The problem is purely conversion: <strong>the website is an elegant brochure with no clear way to act.</strong></p>
+
+  <p>Across all seven pages, a visitor who is ready to book a private class, join a workshop, sign up for mentoring, or reserve a place on the Lebanon tour is funnelled into the same outcome: a generic "send me a message" contact form. There are no prices, no booking calendar, no checkout, and no urgency — despite the site running on Shopify, a platform built to sell. The result is a high-friction path that leaks ready buyers and depends entirely on Amera manually answering enquiries.</p>
+
+  <div class="statband">
+    <div class="stat"><div class="n">7</div><div class="l">Pages audited</div></div>
+    <div class="stat"><div class="n">1</div><div class="l">Conversion action (a form)</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">Prices or "Book now" CTAs</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">Testimonials / reviews</div></div>
+  </div>
+
+  <h3 class="sans" style="color:var(--plum);font-size:13pt;margin-bottom:2mm;">The five highest-impact issues</h3>
+  <div class="finding">
+    <h4>1. There is no booking or purchase path anywhere on the site <span class="pill p-crit">Critical</span></h4>
+    <p class="why">Every service — classes, workshops, mentoring, tours — ends at a contact form. Shopify can take deposits and bookings; none of that capability is used. Ready buyers are forced into a slow email negotiation instead of paying on the spot.</p>
+  </div>
+  <div class="finding">
+    <h4>2. "Belly Dance Classes" is a collection page with no products <span class="pill p-crit">Critical</span></h4>
+    <p class="why">The primary revenue page is a wall of text with nothing to buy and no visible CTA above the fold. The one embedded video failed to render.</p>
+  </div>
+  <div class="finding">
+    <h4>3. A 40-year performer shows almost no proof <span class="pill p-crit">Critical</span></h4>
+    <p class="why">No testimonials, reviews, press quotes, performance video, or student results. The single strongest asset — Amera's reputation — is described in prose but never demonstrated.</p>
+  </div>
+  <div class="finding">
+    <h4>4. The homepage hero sells nothing <span class="pill p-high">High</span></h4>
+    <p class="why">The only hero call-to-action is "Read an article about Amera" (a PDF). There is no headline that states what you can do here, and no primary action.</p>
+  </div>
+  <div class="finding">
+    <h4>5. Prime real estate is blank or broken <span class="pill p-high">High</span></h4>
+    <p class="why">The Contact and Tours pages open with large empty grey placeholder banners. The Tours page — "bookings open now" — contains almost no information and no price.</p>
+  </div>
+
+  <div class="callout">
+    <h3>The opportunity in one line</h3>
+    <p>This is not a redesign that needs new content — Amera's story, credibility and offerings already exist. It needs <strong style="color:#fff">structure, proof, and a button that takes money.</strong> Adding clear offers with prices and a booking flow is the single change most likely to move revenue.</p>
+  </div>
+</section>
+
+<!-- ============ SCORECARD + METHOD ============ -->
+<section class="page">
+  <div class="kicker">02 — Conversion Scorecard</div>
+  <h2 class="section">How each page performs today</h2>
+  <hr class="section-rule">
+  <p>Each page scored across the dimensions that drive conversion. Grades: <span class="grade g-crit">Critical</span> needs urgent work · <span class="grade g-poor">Weak</span> underperforming · <span class="grade g-ok">OK</span> acceptable.</p>
+
+  <table class="scorecard avoid-break">
+    <thead>
+      <tr><th>Page</th><th>Value prop clarity</th><th>Primary CTA</th><th>Trust / proof</th><th>Visual &amp; layout</th><th>Friction</th><th>Overall</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Home</strong></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-crit">Critical</span></td></tr>
+      <tr><td><strong>About</strong></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-poor">Weak</span></td></tr>
+      <tr><td><strong>Belly Dance Classes</strong></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td></tr>
+      <tr><td><strong>Workshops</strong></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-crit">Critical</span></td></tr>
+      <tr><td><strong>Tours to Lebanon</strong></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td></tr>
+      <tr><td><strong>Mentoring</strong></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-poor">Weak</span></td></tr>
+      <tr><td><strong>Contact</strong></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-poor">Weak</span></td><td><span class="grade g-crit">Critical</span></td><td><span class="grade g-ok">OK</span></td><td><span class="grade g-poor">Weak</span></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:9mm;"></div>
+  <div class="kicker">Method &amp; Scope</div>
+  <h2 class="section" style="font-size:15pt;">How this audit was conducted</h2>
+  <hr class="section-rule">
+  <div class="grid2">
+    <div>
+      <p>Each page was loaded on desktop (1440px) and mobile (390px), captured visually, and read in full. Pages were assessed against a standard CRO framework, in order of impact:</p>
+      <ul class="clean">
+        <li><strong>Value proposition clarity</strong> — is it obvious what this is and why it matters in 5 seconds?</li>
+        <li><strong>Headline &amp; messaging</strong> — does the page state an outcome?</li>
+        <li><strong>CTA strength &amp; hierarchy</strong> — one clear primary action, visible early?</li>
+        <li><strong>Trust &amp; social proof</strong> — testimonials, press, media, results.</li>
+        <li><strong>Visual hierarchy &amp; scannability</strong> — layout, whitespace, imagery.</li>
+        <li><strong>Friction</strong> — forms, dead ends, broken elements, mobile.</li>
+      </ul>
+    </div>
+    <div>
+      <p><strong>Technical observations noted during the crawl:</strong></p>
+      <ul class="clean">
+        <li>Navigation lists <strong>"Tours" twice</strong> as a label, which is confusing.</li>
+        <li>The Contact and Tours pages render large <strong>empty grey banner images</strong> in the hero zone.</li>
+        <li>The Classes page <strong>video did not load</strong>.</li>
+        <li>A <strong>shop.app embed is blocked</strong> (403 / CSP frame-ancestors) and logs console errors.</li>
+        <li>Footer uses generic Shopify boilerplate ("Help Guide", "Friendly Support") that doesn't fit a personal brand.</li>
+        <li>Forms request a phone number with no context on response time.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE BY PAGE 1 ============ -->
+<section class="page">
+  <div class="kicker">03 — Page-by-Page Findings</div>
+  <h2 class="section">Home &amp; About</h2>
+  <hr class="section-rule">
+
+  <div class="pagecard">
+    <div class="head"><h3>Homepage</h3><span class="url">ameraeid.com/</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>The hero asks visitors to read, not to act <span class="pill p-crit">Critical</span></h4>
+        <p class="why">A full-width dancer image with a single button: "Read an online article about Amera." There is no headline stating what the site offers, and no path to the four money-making services. A cold visitor cannot tell in 5 seconds that they can book a class, workshop, mentoring session, or tour here.</p>
+        <div class="fix"><b>Fix:</b> Add a clear hero headline + subhead ("Learn authentic Egyptian belly dance from a 40-year master — classes, workshops, mentoring &amp; cultural tours") and a primary CTA ("Book a private session"). Demote the article to a secondary text link.</div>
+      </div>
+      <div class="finding">
+        <h4>The "40 years" credibility is buried in paragraphs <span class="pill p-high">High</span></h4>
+        <p class="why">Amera's strongest selling points (40+ years, international artist, pioneer of belly dance in Australia) appear as long prose blocks, not scannable proof. There are no logos, numbers, or testimonials.</p>
+        <div class="fix"><b>Fix:</b> Convert credibility into a scannable proof bar — "40+ years · International artist · 1,000s of students · Featured in [press]" — and add 2–3 testimonials above the fold.</div>
+      </div>
+      <div class="finding">
+        <h4>No service navigation cards <span class="pill p-high">High</span></h4>
+        <p class="why">The homepage doesn't route visitors to its own offerings. A first-time visitor has to use the top nav to discover that classes, workshops, mentoring and tours exist.</p>
+        <div class="fix"><b>Fix:</b> Add a four-card "What I offer" grid (Classes · Workshops · Mentoring · Tours), each with an image, one line, and a CTA. This is the single biggest homepage win.</div>
+      </div>
+      <div class="finding">
+        <h4>Contact form is the only conversion on the page <span class="pill p-med">Medium</span></h4>
+        <p class="why">Ending the homepage on a bare "message me" form sets the expectation that nothing here is bookable.</p>
+        <div class="fix"><b>Fix:</b> Keep the form, but lead with offer cards and proof. Make the form a fallback, not the primary action.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagecard">
+    <div class="head"><h3>About</h3><span class="url">ameraeid.com/pages/about</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>Strong story, but visually broken by empty whitespace <span class="pill p-crit">Critical</span></h4>
+        <p class="why">The content is genuinely compelling (pioneer of belly dance in Australia, Kylie Minogue's 2000 Olympic costume, Moulin Rouge, Sass &amp; Bide, foster-care advocacy). But it renders as small text blocks floating in vast empty space with <strong>no photographs of Amera</strong> — for a visual performer, this is a missed proof opportunity.</p>
+        <div class="fix"><b>Fix:</b> Rebuild as alternating image + text rows. Add real photos (performance, costume work, the Olympic piece). Pull the marquee credits into a "Career highlights" timeline or stat strip.</div>
+      </div>
+      <div class="finding">
+        <h4>No call-to-action ties the story to a booking <span class="pill p-high">High</span></h4>
+        <p class="why">The page ends without inviting the reader to do anything. The only link is "Read article" (a PDF).</p>
+        <div class="fix"><b>Fix:</b> Close with "Work with Amera" CTAs linking to Classes, Mentoring and Tours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE BY PAGE 2 ============ -->
+<section class="page">
+  <div class="kicker">03 — Page-by-Page Findings (cont.)</div>
+  <h2 class="section">Belly Dance Classes &amp; Workshops</h2>
+  <hr class="section-rule">
+
+  <div class="pagecard">
+    <div class="head"><h3>Belly Dance Classes</h3><span class="url">/collections/dance-classes</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>The primary revenue page sells nothing <span class="pill p-crit">Critical</span></h4>
+        <p class="why">This is a Shopify <em>collection</em> page with <strong>no products in it</strong>. The visitor sees a banner ("Book in for a Private Class") followed by ~500 words of philosophy about private tuition — beautifully written, but with no price, no package, no "Book now" button, and a video that fails to load. The page title promises classes; the page delivers an essay.</p>
+        <div class="fix"><b>Fix:</b> Turn private classes into real Shopify products/booking items — e.g. "Private Class (60 min)", "3-Session Package", "Mentoring Intensive" — each with a price and an add-to-cart / booking button. Lead with the offer + price, then the philosophy as supporting copy.</div>
+      </div>
+      <div class="finding">
+        <h4>Mixed messages: "no weekly classes" but page is titled Classes <span class="pill p-high">High</span></h4>
+        <p class="why">The copy explains group classes aren't currently offered, then pivots to private tuition and mentoring. A visitor expecting a class timetable is confused.</p>
+        <div class="fix"><b>Fix:</b> Rename/reframe to "Private Tuition &amp; Coaching." State up front exactly what's available, for whom, at what price.</div>
+      </div>
+      <div class="finding">
+        <h4>Broken video kills the one piece of proof <span class="pill p-high">High</span></h4>
+        <p class="why">"Amera Eid – Belly Dancing for beginners video" renders as empty space.</p>
+        <div class="fix"><b>Fix:</b> Embed a working video (YouTube) of Amera teaching/performing — this is exactly the proof the page needs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagecard">
+    <div class="head"><h3>Workshops</h3><span class="url">ameraeid.com/pages/workshops</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>~25 workshops dumped as an unstructured wall of text <span class="pill p-crit">Critical</span></h4>
+        <p class="why">Every workshop topic (Franco-Arabic, Shaabi, Golden Era, Drum Solo, Lebanese Pop, and many more) is listed as a paragraph with a cryptic "level BB &amp; above" tag. There is no grouping, no filtering, no images, no duration, and no pricing. The cognitive load is enormous and the page is exhausting to scan.</p>
+        <div class="fix"><b>Fix:</b> Convert to a filterable card grid (by level / style / theme). Each card: title, one-line hook, level, duration, photo. Group into clear categories (Egyptian Classics · Folkloric · Lebanese &amp; Khaleeji · Musicality).</div>
+      </div>
+      <div class="finding">
+        <h4>"Enquire for 2026" with no dates, prices, or booking <span class="pill p-crit">Critical</span></h4>
+        <p class="why">The page mentions "Sunday July 12th 2026" and "minimum time applies," but there's no schedule, no location detail, no fee, and no way to reserve a spot — only the bottom contact form.</p>
+        <div class="fix"><b>Fix:</b> Add a clear "Upcoming workshops" schedule block with date, location, price, and a Book/Reserve button per event. Keep the topic library separate as "Book Amera to teach."</div>
+      </div>
+      <div class="finding">
+        <h4>"level BB &amp; above" is unexplained jargon <span class="pill p-med">Medium</span></h4>
+        <p class="why">A prospective student doesn't know what "BB" means or whether they qualify.</p>
+        <div class="fix"><b>Fix:</b> Add a short level key (Beginner / Beginner-plus / Intermediate / Advanced) and label each workshop plainly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE BY PAGE 3 ============ -->
+<section class="page">
+  <div class="kicker">03 — Page-by-Page Findings (cont.)</div>
+  <h2 class="section">Tours, Mentoring &amp; Contact</h2>
+  <hr class="section-rule">
+
+  <div class="pagecard">
+    <div class="head"><h3>Tours to Lebanon</h3><span class="url">/pages/tours-to-lebanon</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>A high-ticket offer with almost no selling <span class="pill p-crit">Critical</span></h4>
+        <p class="why">A cultural tour to Lebanon is potentially the highest-value conversion on the site. The page contains: a heading, "September 2026 — Bookings open now," two link buttons (download brochure / itinerary), a large empty grey banner, and a contact form. There is no itinerary preview, no photos, no inclusions, no price, no testimonials from past travellers, and no deposit/booking mechanism.</p>
+        <div class="fix"><b>Fix:</b> Build a real tour landing page: hero with Lebanon imagery + dates + price-from, day-by-day itinerary, what's included, gallery, past-traveller testimonials, FAQ, and a "Reserve your place (deposit)" button. Forcing a brochure download before any value is shown loses most visitors.</div>
+      </div>
+      <div class="finding">
+        <h4>"Bookings open now" with no booking <span class="pill p-high">High</span></h4>
+        <p class="why">Urgency language with no matching action undermines trust.</p>
+        <div class="fix"><b>Fix:</b> Pair the urgency with limited-spots messaging and a real deposit checkout.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagecard">
+    <div class="head"><h3>Mentoring</h3><span class="url">ameraeid.com/pages/mentoring</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>Good message, severe layout problems <span class="pill p-crit">Critical</span></h4>
+        <p class="why">The three pillars (Inspiration · Experience · 30+ years) are well-positioned, but they're scattered with massive vertical gaps and misaligned columns, making the page feel empty and unfinished. One photo appears low on the page.</p>
+        <div class="fix"><b>Fix:</b> Rebuild as a tight three-column "What you get" section with icons, then a clear pricing/package block, then the form. Remove the empty whitespace.</div>
+      </div>
+      <div class="finding">
+        <h4>No package, price, or outcome promise <span class="pill p-high">High</span></h4>
+        <p class="why">"Contact me below" is the only next step. No session length, format (online/in-person), price, or what a mentee walks away with.</p>
+        <div class="fix"><b>Fix:</b> Define a productised mentoring offer (e.g. single session vs. 3-month program) with price and outcomes, and a Book button.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagecard">
+    <div class="head"><h3>Contact</h3><span class="url">ameraeid.com/pages/contact</span></div>
+    <div class="body">
+      <div class="finding">
+        <h4>Opens with a large blank grey banner <span class="pill p-high">High</span></h4>
+        <p class="why">The most valuable space on the page is an empty placeholder image, pushing the form far below the fold and making the page look broken.</p>
+        <div class="fix"><b>Fix:</b> Replace with a warm header (photo of Amera + "Let's talk") or remove the banner entirely so the form sits at the top.</div>
+      </div>
+      <div class="finding">
+        <h4>No expectations, no alternatives <span class="pill p-med">Medium</span></h4>
+        <p class="why">The form doesn't say when to expect a reply, and offers no direct email/phone/social alternative near the form for people who don't want to fill it in.</p>
+        <div class="fix"><b>Fix:</b> Add "I usually reply within 24–48 hours," show email + socials beside the form, and make "Comment" optional with a helpful placeholder.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="page">
+  <div class="kicker">04 — Prioritized Roadmap</div>
+  <h2 class="section">What to do, in order</h2>
+  <hr class="section-rule">
+  <p>Sequenced by impact-to-effort. Effort: <span class="effort e-low">Low</span> · <span class="effort e-med">Medium</span> · <span class="effort e-high">High</span>.</p>
+
+  <h3 class="sans" style="color:var(--plum);font-size:12.5pt;margin:5mm 0 2mm;">Quick wins — do this week</h3>
+  <table class="roadmap avoid-break">
+    <thead><tr><th style="width:46%">Action</th><th style="width:30%">Why it matters</th><th style="width:12%">Effort</th><th style="width:12%">Impact</th></tr></thead>
+    <tbody>
+      <tr><td>Replace homepage hero CTA with "Book a private session" + add a real headline</td><td>Gives cold traffic a reason and a path</td><td><span class="effort e-low">Low</span></td><td>High</td></tr>
+      <tr><td>Remove the blank grey banners on Contact &amp; Tours</td><td>Pages stop looking broken; form moves up</td><td><span class="effort e-low">Low</span></td><td>Med</td></tr>
+      <tr><td>Fix the broken Classes video (or remove the slot)</td><td>Restores the one proof element</td><td><span class="effort e-low">Low</span></td><td>Med</td></tr>
+      <tr><td>De-duplicate the "Tours" nav label; tidy footer wording</td><td>Removes confusion, looks professional</td><td><span class="effort e-low">Low</span></td><td>Low</td></tr>
+      <tr><td>Add reply-time + email/social beside every form</td><td>Reduces enquiry anxiety</td><td><span class="effort e-low">Low</span></td><td>Med</td></tr>
+      <tr><td>Add a level key explaining "BB &amp; above"</td><td>Removes jargon barrier on Workshops</td><td><span class="effort e-low">Low</span></td><td>Med</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sans" style="color:var(--plum);font-size:12.5pt;margin:6mm 0 2mm;">High-impact — the real revenue moves</h3>
+  <table class="roadmap avoid-break">
+    <thead><tr><th style="width:46%">Action</th><th style="width:30%">Why it matters</th><th style="width:12%">Effort</th><th style="width:12%">Impact</th></tr></thead>
+    <tbody>
+      <tr><td>Create real, priced, bookable offers (private class, packages, mentoring, workshop tickets, tour deposit)</td><td>Turns a brochure into a store; captures ready buyers instantly</td><td><span class="effort e-high">High</span></td><td>Very High</td></tr>
+      <tr><td>Add a 4-card "What I offer" section to the homepage</td><td>Routes every visitor to a service</td><td><span class="effort e-med">Med</span></td><td>High</td></tr>
+      <tr><td>Add testimonials, press, and performance video across the site</td><td>Supplies the missing proof for a 40-year master</td><td><span class="effort e-med">Med</span></td><td>High</td></tr>
+      <tr><td>Rebuild Workshops as a filterable card grid + live schedule</td><td>Makes 25 offerings usable and bookable</td><td><span class="effort e-high">High</span></td><td>High</td></tr>
+      <tr><td>Build a true Tours landing page (itinerary, gallery, inclusions, price, deposit)</td><td>Sells the highest-ticket item properly</td><td><span class="effort e-high">High</span></td><td>Very High</td></tr>
+      <tr><td>Rebuild About with photos + career timeline</td><td>Converts story into credibility</td><td><span class="effort e-med">Med</span></td><td>Med</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sans" style="color:var(--plum);font-size:12.5pt;margin:6mm 0 2mm;">Test ideas — validate, don't assume</h3>
+  <ul class="clean">
+    <li><strong>Hero CTA:</strong> "Book a private session" vs. "Explore classes &amp; workshops" — measure click-through.</li>
+    <li><strong>Tours:</strong> price-on-page vs. brochure-gate — measure deposit starts.</li>
+    <li><strong>Pricing display:</strong> show "from $X" vs. "enquire for pricing" on services.</li>
+    <li><strong>Proof placement:</strong> testimonials above the fold vs. mid-page.</li>
+  </ul>
+
+  <div class="callout">
+    <h3>If you only do one thing</h3>
+    <p>Give each service a <strong style="color:#fff">price and a button that takes a deposit.</strong> Every other improvement compounds on top of having something to actually buy. The content and credibility are already here — the site just needs to ask for the sale.</p>
+  </div>
+
+  <div class="footer-note">CRO Audit · ameraeid.com · June 2026 · Prepared as the basis for the accompanying multi-page redesign.</div>
+</section>
+
+</body>
+</html>
